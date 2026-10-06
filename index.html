@@ -3,10 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Primera Página Web</title>
+    <title>Login Animado</title>
+    <style>
+        /* --- ESTILOS GENERALES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden; /* Para que las burbujas no generen scroll */
+        }
+
+        /* --- ANIMACIÓN DE FONDO (Burbujas) --- */
+        .background-circles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0; /* Detrás del login */
+            overflow: hidden;
+        }
+
+        .background-circles li {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            animation: animate-circles 25s linear infinite;
+            bottom: -150px;
+            border-radius: 50%;
+        }
+
+        /* Definimos la posición y tamaño de cada burbuja */
+        .background-circles li:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
+        .background-circles li:nth-child(2) { left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+        .background-circles li:nth-child(3) { left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
+        .background-circles li:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
+        .background-circles li:nth-child(5) { left: 65%; width: 20px; height: 20px; animation-delay: 0s; }
+        .background-circles li:nth-child(6) { left: 75%; width: 110px; height: 110px; animation-delay: 3s; }
+        .background-circles li:nth-child(7) { left: 35%; width: 150px; height: 150px; animation-delay: 7s; }
+        .background-circles li:nth-child(8) { left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
+        .background-circles li:nth-child(9) { left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
+        .background-circles li:nth-child(10) { left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; }
+
+        /* Keyframes de la animación de burbujas */
+        @keyframes animate-circles {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 50%; }
+            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 20%; }
+        }
+
+        /* --- ESTILOS DEL CUADRO DE LOGIN --- */
+        .login-container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+            width: 350px;
+            text-align: center;
+            z-index: 1; /* Delante del fondo */
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Animación al pasar el mouse sobre el cuadro */
+        .login-container:hover {
+            transform: scale(1.03);
+        }
+
+        .login-container h2 {
+            margin-bottom: 30px;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px 0;
+            font-size: 16px;
+            color: #333;
+            border: none;
+            border-bottom: 1px solid #555;
+            outline: none;
+            background: transparent;
+        }
+
+        .input-group label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 10px 0;
+            font-size: 16px;
+            color: #555;
+            pointer-events: none;
+            transition: .5s;
+        }
+
+        /* ANIMACIÓN DEL LABEL (Al hacer clic o escribir) */
+        .input-group input:focus ~ label,
+        .input-group input:valid ~ label {
+            top: -20px;
+            color: #764ba2;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* --- ESTILOS DEL BOTÓN --- */
+        button {
+            position: relative;
+            display: inline-block;
+            padding: 10px 20px;
+            color: #764ba2;
+            font-size: 16px;
+            text-decoration: none;
+            text-transform: uppercase;
+            overflow: hidden;
+            transition: .5s;
+            margin-top: 10px;
+            letter-spacing: 4px;
+            background: transparent;
+            border: 1px solid #764ba2;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #764ba2;
+            color: #fff;
+            box-shadow: 0 0 5px #764ba2,
+                        0 0 25px #764ba2,
+                        0 0 50px #764ba2,
+                        0 0 100px #764ba2;
+        }
+
+        /* --- EFECTO DE DESTELLO EN EL BOTÓN --- */
+        button span {
+            position: absolute;
+            display: block;
+        }
+
+        button span:nth-child(1) {
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #fff);
+            animation: btn-anim1 1s linear infinite;
+        }
+
+        @keyframes btn-anim1 {
+            0% { left: -100%; }
+            50%,100% { left: 100%; }
+        }
+
+        button span:nth-child(2) {
+            top: -100%;
+            right: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, #fff);
+            animation: btn-anim2 1s linear infinite;
+            animation-delay: .25s;
+        }
+
+        @keyframes btn-anim2 {
+            0% { top: -100%; }
+            50%,100% { top: 100%; }
+        }
+
+        button span:nth-child(3) {
+            bottom: 0;
+            right: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(270deg, transparent, #fff);
+            animation: btn-anim3 1s linear infinite;
+            animation-delay: .5s;
+        }
+
+        @keyframes btn-anim3 {
+            0% { right: -100%; }
+            50%,100% { right: 100%; }
+        }
+
+        button span:nth-child(4) {
+            bottom: -100%;
+            left: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(360deg, transparent, #fff);
+            animation: btn-anim4 1s linear infinite;
+            animation-delay: .75s;
+        }
+
+        @keyframes btn-anim4 {
+            0% { bottom: -100%; }
+            50%,100% { bottom: 100%; }
+        }
+
+        /* --- RESPONSIVE (Para móviles) --- */
+        @media (max-width: 420px) {
+            .login-container {
+                width: 90%;
+                padding: 30px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>¡Hola mundo!</h1>
-    <p>Esta es mi página web oficial alojada en GitHub Pages.</p>
+    
+    <!-- Fondo Animado -->
+    <ul class="background-circles">
+        <li></li><li></li><li></li><li></li><li></li>
+        <li></li><li></li><li></li><li></li><li></li>
+    </ul>
+
+    <!-- Caja de Login -->
+    <div class="login-container">
+        <h2>Iniciar Sesión</h2>
+        <form>
+            <div class="input-group">
+                <!-- El atributo required ayuda a la animación de focus/valid -->
+                <input type="text" name="" required="">
+                <label>Usuario</label>
+            </div>
+            <div class="input-group">
+                <input type="password" name="" required="">
+                <label>Contraseña</label>
+            </div>
+            <button type="submit">
+                Entrar
+                <!-- Spans para la animación de borde del botón -->
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </form>
+    </div>
+
 </body>
 </html>
