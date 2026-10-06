@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Andrea</title>
+    <title>Para Andrea ❤️</title>
     <style>
         * {
             margin: 0;
@@ -16,163 +16,222 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            background: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%);
             overflow: hidden;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* --- FONDO DE CORAZONES ANIMADOS --- */
-        .hearts-background {
+        /* --- CONTENEDOR DE LA CARTA --- */
+        .container {
+            position: relative;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        /* --- SOBRE CERRADO --- */
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: #f0f0f0;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            transition: transform 0.5s ease;
+        }
+
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+
+        /* Solapa superior del sobre */
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 110px solid #e0e0e0;
+            transform-origin: top;
+            transition: transform 0.4s ease 0.3s;
+            z-index: 3;
+        }
+
+        /* Bolsillo del sobre */
+        .envelope::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            border-left: 150px solid #d5d5d5;
+            border-right: 150px solid #d5d5d5;
+            border-bottom: 110px solid #e8e8e8;
+            border-radius: 0 0 10px 10px;
+            z-index: 2;
+        }
+
+        /* Sello de corazón en el sobre */
+        .seal {
+            position: absolute;
+            top: 75px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 45px;
+            height: 45px;
+            background: #ff4757;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 4;
+            transition: opacity 0.3s ease;
+        }
+
+        .instruction {
+            position: absolute;
+            bottom: -40px;
+            width: 100%;
+            color: #fff;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            animation: pulse-text 1.5s infinite;
+        }
+
+        @keyframes pulse-text {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* --- CARTA INTERNA (OCULTA AL INICIO) --- */
+        .letter {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%) translateY(0);
+            width: 270px;
+            background: #fff;
+            padding: 30px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            z-index: 1;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+        }
+
+        .letter h1 {
+            color: #d63384;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .letter p {
+            color: #555;
+            font-size: 1rem;
+        }
+
+        /* --- ESTADO ABIERTO (AL HACER CLIC) --- */
+        .container.open .envelope::before {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        .container.open .seal {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .container.open .letter {
+            transform: translateX(-50%) translateY(-130px);
+            z-index: 5;
+        }
+
+        .container.open .instruction {
+            display: none;
+        }
+
+        /* --- CORAZONES FLOTANTES DE FONDO --- */
+        .hearts {
             position: absolute;
             width: 100%;
             height: 100%;
             top: 0;
-            left: 0;
+            left: 0.
+            pointer-events: none;
             z-index: 0;
             overflow: hidden;
         }
 
-        .hearts-background li {
+        .hearts span {
             position: absolute;
-            list-style: none;
             display: block;
-            width: 25px;
-            height: 25px;
-            background: rgba(255, 255, 255, 0.3);
-            bottom: -50px;
-            animation: float-hearts 20s linear infinite;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 105, 180, 0.3);
+            bottom: -30px;
             transform: rotate(45deg);
+            animation: float 8s linear infinite;
         }
 
-        /* Forma de corazón usando pseudo-elementos */
-        .hearts-background li::before,
-        .hearts-background li::after {
+        .hearts span::before,
+        .hearts span::after {
             content: '';
             position: absolute;
-            width: 25px;
-            height: 25px;
-            background: rgba(255, 255, 255, 0.3);
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 105, 180, 0.3);
             border-radius: 50%;
         }
+        .hearts span::before { top: -10px; left: 0; }
+        .hearts span::after { top: 0; left: -10px; }
 
-        .hearts-background li::before {
-            top: -12.5px;
-            left: 0;
-        }
+        .hearts span:nth-child(1) { left: 15%; animation-duration: 6s; animation-delay: 0s; }
+        .hearts span:nth-child(2) { left: 35%; animation-duration: 9s; animation-delay: 2s; }
+        .hearts span:nth-child(3) { left: 55%; animation-duration: 7s; animation-delay: 1s; }
+        .hearts span:nth-child(4) { left: 75%; animation-duration: 10s; animation-delay: 3s; }
+        .hearts span:nth-child(5) { left: 85%; animation-duration: 5s; animation-delay: 2s; }
 
-        .hearts-background li::after {
-            top: 0;
-            left: -12.5px;
-        }
-
-        /* Posiciones y tiempos variados para los corazones */
-        .hearts-background li:nth-child(1) { left: 10%; width: 20px; height: 20px; animation-duration: 15s; animation-delay: 0s; }
-        .hearts-background li:nth-child(2) { left: 20%; width: 35px; height: 35px; animation-duration: 12s; animation-delay: 2s; }
-        .hearts-background li:nth-child(3) { left: 35%; width: 15px; height: 15px; animation-duration: 25s; animation-delay: 4s; }
-        .hearts-background li:nth-child(4) { left: 50%; width: 40px; height: 40px; animation-duration: 18s; animation-delay: 1s; }
-        .hearts-background li:nth-child(5) { left: 65%; width: 25px; height: 25px; animation-duration: 14s; animation-delay: 3s; }
-        .hearts-background li:nth-child(6) { left: 80%; width: 30px; height: 30px; animation-duration: 22s; animation-delay: 5s; }
-        .hearts-background li:nth-child(7) { left: 90%; width: 20px; height: 20px; animation-duration: 16s; animation-delay: 2s; }
-
-        @keyframes float-hearts {
-            0% {
-                transform: translateY(0) rotate(45deg) scale(0.8);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-1000px) rotate(720deg) scale(1.2);
-                opacity: 0;
-            }
-        }
-
-        /* --- TARJETA CENTRAL --- */
-        .card {
-            position: relative;
-            background: rgba(255, 255, 255, 0.85);
-            padding: 50px 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-            text-align: center;
-            z-index: 1;
-            backdrop-filter: blur(5px);
-            animation: pulse-card 3s ease-in-out infinite;
-            max-width: 90%;
-        }
-
-        @keyframes pulse-card {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
-
-        /* --- TEXTO ANIMADO --- */
-        h1 {
-            color: #d63384;
-            font-size: 3rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 15px;
-            text-shadow: 0 2px 10px rgba(214, 51, 132, 0.2);
-            animation: glow-text 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow-text {
-            from {
-                text-shadow: 0 0 10px rgba(255, 105, 180, 0.4), 0 0 20px rgba(255, 105, 180, 0.2);
-            }
-            to {
-                text-shadow: 0 0 20px rgba(255, 105, 180, 0.8), 0 0 30px rgba(214, 51, 132, 0.6);
-            }
-        }
-
-        p {
-            color: #666;
-            font-size: 1.2rem;
-            letter-spacing: 1px;
-        }
-
-        /* --- CORAZÓN LATINDECORATIVO --- */
-        .big-heart {
-            font-size: 4rem;
-            color: #ff4757;
-            margin-bottom: 10px;
-            display: inline-block;
-            animation: heartbeat 1.2s infinite;
-        }
-
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            15% { transform: scale(1.3); }
-            30% { transform: scale(1); }
-            45% { transform: scale(1.15); }
-            60% { transform: scale(1); }
-        }
-
-        /* Responsive para celulares */
-        @media (max-width: 480px) {
-            h1 { font-size: 2.2rem; }
-            .card { padding: 30px 20px; }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(45deg) scale(0.6); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(45deg) scale(1.2); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Fondo de corazones flotantes -->
-    <ul class="hearts-background">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-    </ul>
-
-    <!-- Tarjeta romántica -->
-    <div class="card">
-        <div class="big-heart">❤️</div>
-        <h1>Andrea Te Amo</h1>
-        <p>Para siempre juntos</p>
+    <!-- Fondo con corazones flotantes -->
+    <div class="hearts">
+        <span></span><span></span><span></span><span></span><span></span>
     </div>
+
+    <!-- Contenedor interactivo de la carta -->
+    <div class="container" id="cardContainer">
+        <!-- Carta que sale del sobre -->
+        <div class="letter">
+            <h1>Andrea</h1>
+            <p>Te amo ❤️</p>
+        </div>
+
+        <!-- Sobre -->
+        <div class="envelope">
+            <div class="seal">❤</div>
+        </div>
+        
+        <div class="instruction">Haz clic para abrir</div>
+    </div>
+
+    <script>
+        // Script simple de JavaScript para activar la apertura al hacer clic
+        const container = document.getElementById('cardContainer');
+        container.addEventListener('click', () => {
+            container.classList.toggle('open');
+        });
+    </script>
 
 </body>
 </html>
